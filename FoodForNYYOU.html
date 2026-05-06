@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Food for NYYOU — Fighting Food Insecurity at NYU</title>
+<meta name="description" content="Food for NYYOU is a student-led nonprofit redistributing surplus food from NYU clubs and dining halls to students facing food insecurity." />
+<style>
+  :root {
+    --navy: #0c5478;
+    --navy-deep: #093b56;
+    --green: #8dc641;
+    --green-dark: #76ad33;
+    --purple: #8b6bb8;
+    --light: #f1f4f7;
+    --white: #ffffff;
+    --text: #1f2a36;
+    --muted: #5a6877;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+    color: var(--text);
+    line-height: 1.6;
+    background: var(--white);
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(12, 84, 120, 0.97);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  .logo {
+    color: var(--white);
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+  }
+  .logo .ny { color: var(--green); }
+  .logo .you { color: var(--purple); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--green); }
+
+  .nav-cta {
+    background: var(--green);
+    color: var(--navy-deep);
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .nav-cta:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+  .menu-toggle { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    width: 80px; height: 80px;
+    border: 4px solid var(--green);
+  }
+  .hero::before { top: 40px; left: 40px; border-right: none; border-bottom: none; }
+  .hero::after { bottom: 40px; right: 40px; border-left: none; border-top: none; }
+
+  .hero-content { text-align: center; max-width: 900px; z-index: 1; }
+
+  .hero h1 {
+    font-size: clamp(3rem, 9vw, 6rem);
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 .food-for { color: var(--green); display: block; }
+  .hero h1 .ny { color: var(--green); }
+  .hero h1 .you { color: var(--purple); }
+
+  .hero .tagline {
+    font-style: italic;
+    font-size: 1.25rem;
+    color: rgba(255,255,255,0.85);
+    margin: 2rem 0;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s;
+    display: inline-block;
+    border: 2px solid transparent;
+  }
+  .btn-primary { background: var(--green); color: var(--navy-deep); }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); }
+  .btn-secondary { background: transparent; color: var(--white); border-color: var(--white); }
+  .btn-secondary:hover { background: var(--white); color: var(--navy); }
+
+  /* ===== SECTIONS ===== */
+  section { padding: 5rem 2rem; }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-title {
+    color: var(--navy);
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+  }
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: var(--green);
+    margin-top: 0.5rem;
+    border-radius: 2px;
+  }
+  .section-subtitle {
+    color: var(--muted);
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    margin-top: 1rem;
+  }
+
+  /* ===== PROBLEM ===== */
+  .problem { background: var(--light); }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+    align-items: stretch;
+  }
+
+  .stat-card {
+    background: var(--navy);
+    color: var(--white);
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .stat-card .big-number {
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+  }
+  .stat-card .stat-label {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    opacity: 0.9;
+  }
+  .stat-card .stat-emphasis {
+    margin-top: 2rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.85);
+  }
+  .stat-card .stat-emphasis strong { color: var(--white); text-decoration: underline; font-style: normal; }
+
+  .problem-cards { display: flex; flex-direction: column; gap: 1rem; }
+  .problem-card {
+    background: var(--white);
+    border-left: 5px solid var(--purple);
+    padding: 1.5rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .problem-card h3 { color: var(--navy); margin-bottom: 0.5rem; }
+  .problem-card p { color: var(--muted); font-size: 0.95rem; }
+
+  /* ===== MISSION/VISION ===== */
+  .mission {
+    background: var(--navy);
+    color: var(--white);
+  }
+  .mission .section-title { color: var(--white); }
+
+  .mv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .mv-card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid;
+    padding: 2.5rem;
+    border-radius: 10px;
+  }
+  .mv-card.mission-card { border-color: var(--green); }
+  .mv-card.vision-card { border-color: var(--purple); }
+  .mv-card .mv-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 1rem;
+  }
+  .mission-card .mv-label { color: var(--green); }
+  .vision-card .mv-label { color: var(--purple); }
+  .mv-card h3 { font-size: 1.5rem; margin-bottom: 1.5rem; line-height: 1.3; }
+  .mv-card p { color: rgba(255,255,255,0.8); font-style: italic; }
+
+  /* ===== HOW IT WORKS ===== */
+  .how-it-works { background: var(--white); }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .step-card {
+    background: var(--navy);
+    color: var(--white);
+    padding: 2.5rem 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid var(--green);
+    transition: transform 0.2s;
+  }
+  .step-card:hover { transform: translateY(-5px); }
+
+  .step-number {
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+  }
+  .step-divider {
+    width: 60%;
+    height: 3px;
+    background: var(--green);
+    margin: 1rem auto 1.5rem;
+    border-radius: 2px;
+  }
+  .step-card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+  .step-card p { font-size: 0.95rem; color: rgba(255,255,255,0.85); }
+
+  /* ===== IMPACT GOALS ===== */
+  .impact { background: var(--light); }
+
+  .goals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+  .goal-card {
+    background: var(--navy);
+    color: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+  }
+  .goal-card .goal-num {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--green);
+    border-bottom: 3px solid var(--green);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .goal-card h3 { margin-bottom: 0.75rem; }
+  .goal-card p { color: rgba(255,255,255,0.85); font-size: 0.95rem; }
+
+  /* ===== TEAM ===== */
+  .team { background: var(--white); }
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+
+  .team-card {
+    background: var(--white);
+    border: 2px solid;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+  }
+  .team-card.taka { border-color: var(--navy); }
+  .team-card.naseem { border-color: var(--purple); }
+  .team-card.sam { border-color: var(--green); }
+
+  .avatar {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 2.25rem;
+    font-weight: 800;
+  }
+  .team-card.taka .avatar { background: var(--navy); }
+  .team-card.naseem .avatar { background: var(--purple); }
+  .team-card.sam .avatar { background: var(--green); }
+
+  .team-card h3 { font-size: 1.4rem; margin-bottom: 1rem; }
+  .team-card.taka h3 { color: var(--navy); }
+  .team-card.naseem h3 { color: var(--purple); }
+  .team-card.sam h3 { color: var(--green-dark); }
+  .team-card .quote { font-style: italic; color: var(--muted); font-size: 0.95rem; }
+
+  /* ===== GET INVOLVED ===== */
+  .get-involved {
+    background: var(--navy);
+    color: var(--white);
+  }
+  .get-involved .section-title { color: var(--white); }
+
+  .involved-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+  .involved-card {
+    background: rgba(255,255,255,0.06);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .involved-card .icon {
+    width: 56px; height: 56px;
+    margin: 0 auto 1rem;
+    background: var(--green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--navy-deep);
+    font-weight: 900;
+  }
+  .involved-card h3 { color: var(--green); margin-bottom: 0.75rem; }
+  .involved-card p { color: rgba(255,255,255,0.85); font-size: 0.95rem; margin-bottom: 1.25rem; }
+  .involved-card a {
+    display: inline-block;
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 2px solid var(--green);
+    padding-bottom: 2px;
+  }
+
+  /* ===== CONTACT FORM ===== */
+  .contact { background: var(--light); }
+
+  .contact-form {
+    max-width: 600px;
+    margin: 2rem auto 0;
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #d8dde3;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--green);
+  }
+  .form-group textarea { min-height: 100px; resize: vertical; }
+  .form-submit {
+    background: var(--green);
+    color: var(--navy-deep);
+    border: none;
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+  }
+  .form-submit:hover { background: var(--green-dark); }
+  .form-success {
+    display: none;
+    background: var(--green);
+    color: var(--navy-deep);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--navy-deep);
+    color: var(--white);
+    padding: 3rem 2rem 1.5rem;
+    text-align: center;
+  }
+  footer .footer-tagline {
+    font-style: italic;
+    color: var(--green);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  footer .socials {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  footer .socials a {
+    color: var(--white);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  footer .socials a:hover { color: var(--green); opacity: 1; }
+  footer .copy {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: var(--navy);
+      flex-direction: column;
+      padding: 1rem;
+      gap: 1rem;
+    }
+    .nav-links.open { display: flex; }
+    .nav-cta { display: none; }
+
+    .problem-grid,
+    .mv-grid,
+    .steps-grid,
+    .goals-grid,
+    .team-grid,
+    .involved-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-title { font-size: 2rem; }
+    section { padding: 3.5rem 1.5rem; }
+    .hero { padding: 5rem 1.5rem 3rem; }
+    .hero::before, .hero::after { width: 50px; height: 50px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#top" class="logo">Food for <span class="ny">NY</span><span class="you">YOU</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#team">Our Team</a></li>
+    <li><a href="#involved">Get Involved</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Contact</a>
+  <button class="menu-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">&#9776;</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-content">
+    <h1>
+      <span class="food-for">FOOD FOR</span>
+      <span><span class="ny">NY</span><span class="you">YOU</span></span>
+    </h1>
+    <p class="tagline">"One less person hungry is a difference made."</p>
+    <div class="hero-buttons">
+      <a href="#involved" class="btn-primary">Get Involved</a>
+      <a href="#mission" class="btn-secondary">Our Mission</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="container">
+    <h2 class="section-title">The Problem</h2>
+    <p class="section-subtitle">Hidden hunger meets unnecessary waste — every single day on campus.</p>
+    <div class="problem-grid">
+      <div class="stat-card">
+        <div>
+          <div class="big-number">1 in 3</div>
+          <div class="stat-label">college students in NYC<br>experience food insecurity</div>
+        </div>
+        <p class="stat-emphasis"><strong>Students at NYU face hunger daily</strong>, yet nothing is being done about it. Meanwhile, NYU clubs and dining halls produce substantial food waste…</p>
+      </div>
+      <div class="problem-cards">
+        <div class="problem-card">
+          <h3>Food Insecurity is Hidden</h3>
+          <p>Many students don't disclose hunger due to stigma, and there's no reliable system to identify or reach them.</p>
+        </div>
+        <div class="problem-card">
+          <h3>Food Waste at Scale</h3>
+          <p>Club events and dining halls regularly discard surplus food with no redistribution pathway.</p>
+        </div>
+        <div class="problem-card">
+          <h3>No Unified Solution</h3>
+          <p>Existing resources like Violet Pantry and ShareMeals are fragmented, limited in scope, or no longer campus-specific.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION / VISION -->
+<section class="mission" id="mission">
+  <div class="container">
+    <h2 class="section-title">Our Solution</h2>
+    <p class="section-subtitle" style="color: rgba(255,255,255,0.75);">Turning campus surplus into student support.</p>
+    <div class="mv-grid">
+      <div class="mv-card mission-card">
+        <div class="mv-label">OUR MISSION</div>
+        <h3>Reduce food insecurity at NYU through efficient food redistribution.</h3>
+        <p>We connect clubs that have surplus food with students who need it — turning waste into impact through a simple, volunteer-powered platform.</p>
+      </div>
+      <div class="mv-card vision-card">
+        <div class="mv-label">OUR VISION</div>
+        <h3>A campus with no food waste and no student hunger.</h3>
+        <p>We envision an NYU where every event leftover feeds someone in need — where surplus is seen as a resource, not refuse.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-subtitle">Three simple steps. No forms. No payment. Just food.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-divider"></div>
+        <h3>Collect</h3>
+        <p>Club finishes their event → volunteers pick up and properly package the leftover food.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-divider"></div>
+        <h3>Redistribute</h3>
+        <p>Volunteers transport packaged food to centralized pickup locations around campus.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-divider"></div>
+        <h3>Access</h3>
+        <p>Students pick up food during allotted pickup windows. No forms. No payment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT GOALS -->
+<section class="impact">
+  <div class="container">
+    <h2 class="section-title">Our Social Impact Goals</h2>
+    <p class="section-subtitle">What we're working toward, every semester.</p>
+    <div class="goals-grid">
+      <div class="goal-card">
+        <div class="goal-num">01</div>
+        <h3>Impact Food Insecurity</h3>
+        <p>Make a meaningful, measurable impact on food insecurity at NYU by connecting hungry students with free, nutritious food that would otherwise go to waste.</p>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">02</div>
+        <h3>Reduce Food Waste</h3>
+        <p>Reduce food waste at NYU, particularly from club events, transforming leftovers into a resource rather than refuse.</p>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">03</div>
+        <h3>Spread Awareness & Inspire</h3>
+        <p>Raise campus-wide awareness of food insecurity, and inspire other student organizations and institutions to launch similar initiatives.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team" id="team">
+  <div class="container">
+    <h2 class="section-title">Meet the Team</h2>
+    <p class="section-subtitle">Three NYU students. One mission.</p>
+    <div class="team-grid">
+      <div class="team-card taka">
+        <div class="avatar">T</div>
+        <h3>Taka</h3>
+        <p class="quote">"I am here to build social impact organizations that support food-insecure individuals while inspiring solutions that reduce food waste."</p>
+      </div>
+      <div class="team-card naseem">
+        <div class="avatar">N</div>
+        <h3>Naseem</h3>
+        <p class="quote">"I am here to help my generation appreciate the opportunities and resources given to us so that we can in turn help those who are less resourced or struggling."</p>
+      </div>
+      <div class="team-card sam">
+        <div class="avatar">S</div>
+        <h3>Sam</h3>
+        <p class="quote">"I am here to create more efficient systems so that data can be transformed into the most optimal results."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GET INVOLVED -->
+<section class="get-involved" id="involved">
+  <div class="container">
+    <h2 class="section-title">Get Involved</h2>
+    <p class="section-subtitle" style="color: rgba(255,255,255,0.75);">Whether you have food to share, time to give, or a need to fill — there's a place for you here.</p>
+    <div class="involved-grid">
+      <div class="involved-card">
+        <div class="icon">+</div>
+        <h3>Clubs</h3>
+        <p>Have surplus food after your event? Let us know and we'll arrange pickup — your leftovers feed students.</p>
+        <a href="#contact">Partner with us →</a>
+      </div>
+      <div class="involved-card">
+        <div class="icon">+</div>
+        <h3>Volunteers</h3>
+        <p>Help us collect, package, and redistribute food across campus. Flexible hours, real impact.</p>
+        <a href="#contact">Sign up →</a>
+      </div>
+      <div class="involved-card">
+        <div class="icon">+</div>
+        <h3>Students</h3>
+        <p>Need a meal? Find pickup windows and locations through our channels. No forms. No questions.</p>
+        <a href="#contact">Get notified →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container" style="text-align: center;">
+    <h2 class="section-title">Get In Touch</h2>
+    <p class="section-subtitle">Questions, partnership ideas, or want to volunteer? Reach out below.</p>
+    <form class="contact-form" onsubmit="handleSubmit(event)" style="text-align: left;">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+      <div class="form-group">
+        <label for="role">I'm interested in...</label>
+        <select id="role" name="role">
+          <option>Volunteering</option>
+          <option>Partnering as a club</option>
+          <option>Receiving food updates</option>
+          <option>General inquiry</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Tell us a bit about how you'd like to help or what you're looking for..."></textarea>
+      </div>
+      <button type="submit" class="form-submit">Send Message</button>
+      <div class="form-success" id="formSuccess">Thanks for reaching out! We'll get back to you soon.</div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo" style="font-size: 1.5rem;">Food for <span style="color:var(--green)">NY</span><span style="color:var(--purple)">YOU</span></div>
+  <p class="footer-tagline">"One less person hungry is a difference made."</p>
+  <div class="socials">
+    <a href="#">Instagram</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">Discord</a>
+    <a href="mailto:hello@foodfornyyou.org">Email</a>
+  </div>
+  <p class="copy">© 2026 Food for NYYOU · A student-led nonprofit at NYU · Built by Taka, Sam & Naseem</p>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    document.getElementById('formSuccess').style.display = 'block';
+    e.target.reset();
+    setTimeout(() => {
+      document.getElementById('formSuccess').style.display = 'none';
+    }, 4000);
+  }
+
+  // Close mobile menu after clicking a link
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+</script>
+
+</body>
+</html>
